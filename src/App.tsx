@@ -13,32 +13,29 @@ const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#6366f1', // Modern indigo
-      light: '#818cf8',
-      dark: '#4f46e5',
+      main: '#8b5cf6', // Vibrant purple
+      light: '#a78bfa',
+      dark: '#7c3aed',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#f59e0b', // Vibrant amber
-      light: '#fbbf24',
-      dark: '#d97706',
-      contrastText: '#000000',
+      main: '#06b6d4', // Cyan accent
+      light: '#22d3ee',
+      dark: '#0891b2',
+      contrastText: '#ffffff',
     },
     background: {
-      default: '#0f172a', // Dark slate
-      paper: '#1e293b',
-    },
-    surface: {
-      main: '#334155',
+      default: '#0c0a1e', // Deep purple-black
+      paper: '#1a1332',
     },
     text: {
-      primary: '#f1f5f9',
+      primary: '#f8fafc',
       secondary: '#cbd5e1',
     },
     error: {
-      main: '#ef4444',
-      light: '#f87171',
-      dark: '#dc2626',
+      main: '#f43f5e',
+      light: '#fb7185',
+      dark: '#e11d48',
     },
     warning: {
       main: '#f59e0b',
@@ -59,18 +56,22 @@ const theme = createTheme({
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
-      fontWeight: 700,
-      fontSize: '2.5rem',
+      fontWeight: 800,
+      fontSize: '3rem',
       letterSpacing: '-0.025em',
+      background: 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)',
+      backgroundClip: 'text',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
     },
     h2: {
       fontWeight: 700,
-      fontSize: '2rem',
+      fontSize: '2.25rem',
       letterSpacing: '-0.025em',
     },
     h3: {
       fontWeight: 600,
-      fontSize: '1.75rem',
+      fontSize: '1.875rem',
       letterSpacing: '-0.025em',
     },
     h4: {
@@ -90,44 +91,76 @@ const theme = createTheme({
     },
     body1: {
       fontSize: '1rem',
-      lineHeight: 1.6,
+      lineHeight: 1.7,
     },
     body2: {
       fontSize: '0.875rem',
-      lineHeight: 1.5,
+      lineHeight: 1.6,
     },
   },
   shape: {
-    borderRadius: 12,
+    borderRadius: 16,
   },
   shadows: [
     'none',
-    '0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24)',
-    '0px 3px 6px rgba(0, 0, 0, 0.16), 0px 3px 6px rgba(0, 0, 0, 0.23)',
-    '0px 10px 20px rgba(0, 0, 0, 0.19), 0px 6px 6px rgba(0, 0, 0, 0.23)',
-    '0px 14px 28px rgba(0, 0, 0, 0.25), 0px 10px 10px rgba(0, 0, 0, 0.22)',
-    '0px 19px 38px rgba(0, 0, 0, 0.30), 0px 15px 12px rgba(0, 0, 0, 0.22)',
-    ...Array(19).fill('0px 19px 38px rgba(0, 0, 0, 0.30), 0px 15px 12px rgba(0, 0, 0, 0.22)'),
+    '0px 1px 3px rgba(139, 92, 246, 0.12), 0px 1px 2px rgba(139, 92, 246, 0.24)',
+    '0px 3px 6px rgba(139, 92, 246, 0.16), 0px 3px 6px rgba(139, 92, 246, 0.23)',
+    '0px 10px 20px rgba(139, 92, 246, 0.19), 0px 6px 6px rgba(139, 92, 246, 0.23)',
+    '0px 14px 28px rgba(139, 92, 246, 0.25), 0px 10px 10px rgba(139, 92, 246, 0.22)',
+    '0px 19px 38px rgba(139, 92, 246, 0.30), 0px 15px 12px rgba(139, 92, 246, 0.22)',
+    '0px 24px 48px rgba(139, 92, 246, 0.35), 0px 18px 15px rgba(139, 92, 246, 0.25)',
+    '0px 32px 64px rgba(139, 92, 246, 0.40), 0px 24px 20px rgba(139, 92, 246, 0.30)',
+    '0px 40px 80px rgba(139, 92, 246, 0.45), 0px 30px 25px rgba(139, 92, 246, 0.35)',
+    '0px 48px 96px rgba(139, 92, 246, 0.50), 0px 36px 30px rgba(139, 92, 246, 0.40)',
+    '0px 56px 112px rgba(139, 92, 246, 0.55), 0px 42px 35px rgba(139, 92, 246, 0.45)',
+    '0px 64px 128px rgba(139, 92, 246, 0.60), 0px 48px 40px rgba(139, 92, 246, 0.50)',
+    '0px 72px 144px rgba(139, 92, 246, 0.65), 0px 54px 45px rgba(139, 92, 246, 0.55)',
+    '0px 80px 160px rgba(139, 92, 246, 0.70), 0px 60px 50px rgba(139, 92, 246, 0.60)',
+    '0px 88px 176px rgba(139, 92, 246, 0.75), 0px 66px 55px rgba(139, 92, 246, 0.65)',
+    '0px 96px 192px rgba(139, 92, 246, 0.80), 0px 72px 60px rgba(139, 92, 246, 0.70)',
+    '0px 104px 208px rgba(139, 92, 246, 0.85), 0px 78px 65px rgba(139, 92, 246, 0.75)',
+    '0px 112px 224px rgba(139, 92, 246, 0.90), 0px 84px 70px rgba(139, 92, 246, 0.80)',
+    '0px 120px 240px rgba(139, 92, 246, 0.95), 0px 90px 75px rgba(139, 92, 246, 0.85)',
+    '0px 128px 256px rgba(139, 92, 246, 1.00), 0px 96px 80px rgba(139, 92, 246, 0.90)',
+    '0px 136px 272px rgba(139, 92, 246, 1.00), 0px 102px 85px rgba(139, 92, 246, 0.95)',
+    '0px 144px 288px rgba(139, 92, 246, 1.00), 0px 108px 90px rgba(139, 92, 246, 1.00)',
+    '0px 152px 304px rgba(139, 92, 246, 1.00), 0px 114px 95px rgba(139, 92, 246, 1.00)',
+    '0px 160px 320px rgba(139, 92, 246, 1.00), 0px 120px 100px rgba(139, 92, 246, 1.00)',
+    '0px 168px 336px rgba(139, 92, 246, 1.00), 0px 126px 105px rgba(139, 92, 246, 1.00)',
   ],
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
           textTransform: 'none',
-          borderRadius: 12,
+          borderRadius: 16,
           fontWeight: 600,
-          padding: '12px 24px',
-          boxShadow: '0 4px 14px 0 rgba(99, 102, 241, 0.25)',
-          transition: 'all 0.3s ease',
-          '&:hover': {
-            transform: 'translateY(-2px)',
-            boxShadow: '0 8px 25px 0 rgba(99, 102, 241, 0.35)',
+          padding: '14px 28px',
+          background: 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)',
+          boxShadow: '0 8px 32px rgba(139, 92, 246, 0.3)',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          position: 'relative',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: '-100%',
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+            transition: 'left 0.6s',
           },
-        },
-        contained: {
-          background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
           '&:hover': {
-            background: 'linear-gradient(135deg, #5b21b6 0%, #7c3aed 100%)',
+            transform: 'translateY(-4px) scale(1.02)',
+            boxShadow: '0 16px 64px rgba(139, 92, 246, 0.5)',
+            background: 'linear-gradient(135deg, #7c3aed 0%, #0891b2 100%)',
+            '&::before': {
+              left: '100%',
+            },
+          },
+          '&:active': {
+            transform: 'translateY(-2px) scale(0.98)',
           },
         },
       },
@@ -135,15 +168,27 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
-          background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-          border: '1px solid rgba(99, 102, 241, 0.1)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-          backdropFilter: 'blur(8px)',
-          transition: 'all 0.3s ease',
+          borderRadius: 24,
+          background: 'linear-gradient(135deg, rgba(26, 19, 50, 0.8) 0%, rgba(12, 10, 30, 0.9) 100%)',
+          border: '1px solid rgba(139, 92, 246, 0.2)',
+          boxShadow: '0 16px 64px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(20px)',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          position: 'relative',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent)',
+          },
           '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 12px 40px rgba(99, 102, 241, 0.2)',
+            transform: 'translateY(-8px) rotateX(2deg)',
+            boxShadow: '0 24px 96px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+            border: '1px solid rgba(139, 92, 246, 0.4)',
           },
         },
       },
@@ -151,9 +196,10 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(99, 102, 241, 0.1)',
+          background: 'linear-gradient(135deg, rgba(12, 10, 30, 0.95) 0%, rgba(26, 19, 50, 0.95) 100%)',
+          backdropFilter: 'blur(24px)',
+          borderBottom: '1px solid rgba(139, 92, 246, 0.2)',
+          boxShadow: '0 8px 32px rgba(139, 92, 246, 0.1)',
         },
       },
     },
@@ -161,16 +207,20 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiOutlinedInput-root': {
-            borderRadius: 12,
-            background: 'rgba(51, 65, 85, 0.5)',
+            borderRadius: 16,
+            background: 'rgba(26, 19, 50, 0.6)',
+            backdropFilter: 'blur(12px)',
+            transition: 'all 0.3s ease',
             '& fieldset': {
-              borderColor: 'rgba(99, 102, 241, 0.3)',
+              borderColor: 'rgba(139, 92, 246, 0.3)',
+              borderWidth: '2px',
             },
             '&:hover fieldset': {
-              borderColor: 'rgba(99, 102, 241, 0.5)',
+              borderColor: 'rgba(139, 92, 246, 0.6)',
             },
             '&.Mui-focused fieldset': {
-              borderColor: '#6366f1',
+              borderColor: '#8b5cf6',
+              boxShadow: '0 0 0 4px rgba(139, 92, 246, 0.1)',
             },
           },
         },
@@ -179,8 +229,9 @@ const theme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
+          borderRadius: 12,
           fontWeight: 600,
+          backdropFilter: 'blur(8px)',
         },
         colorWarning: {
           background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
@@ -195,7 +246,7 @@ const theme = createTheme({
           color: '#ffffff',
         },
         colorError: {
-          background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+          background: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)',
           color: '#ffffff',
         },
       },
@@ -211,20 +262,6 @@ const App = () => {
         <SnackbarProvider 
           maxSnack={3} 
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          sx={{
-            '& .SnackbarItem-variantSuccess': {
-              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-            },
-            '& .SnackbarItem-variantError': {
-              background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-            },
-            '& .SnackbarItem-variantWarning': {
-              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-            },
-            '& .SnackbarItem-variantInfo': {
-              background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
-            },
-          }}
         >
           <BrowserRouter>
             <AuthProvider>
