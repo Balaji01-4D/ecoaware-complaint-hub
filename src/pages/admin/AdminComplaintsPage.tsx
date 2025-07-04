@@ -9,13 +9,13 @@ import {
   Select,
   MenuItem,
   Chip,
-  Grid,
   TextField,
   Card,
   CardContent,
   Avatar,
 } from '@mui/material';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import Grid from '@mui/material/Grid2';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { RootState, AppDispatch } from '../../store/store';
@@ -74,13 +74,13 @@ const AdminComplaintsPage: React.FC = () => {
       field: 'category',
       headerName: 'Category',
       width: 120,
-      valueGetter: (params: GridValueGetterParams) => params.row.category.name,
+      valueGetter: (value, row) => row.category.name,
     },
     {
       field: 'createdBy',
       headerName: 'Reporter',
       width: 150,
-      valueGetter: (params: GridValueGetterParams) => params.row.createdBy.name,
+      valueGetter: (value, row) => row.createdBy.name,
     },
     {
       field: 'status',
@@ -105,8 +105,8 @@ const AdminComplaintsPage: React.FC = () => {
       field: 'createdAt',
       headerName: 'Created',
       width: 120,
-      valueGetter: (params: GridValueGetterParams) => 
-        new Date(params.value).toLocaleDateString(),
+      valueGetter: (value) => 
+        new Date(value).toLocaleDateString(),
     },
   ];
 
@@ -130,7 +130,7 @@ const AdminComplaintsPage: React.FC = () => {
 
       {/* Statistics */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={6} sm={2.4}>
+        <Grid xs={6} sm={2.4}>
           <Card>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
               <Typography variant="h4" color="primary">{stats.total}</Typography>
@@ -138,7 +138,7 @@ const AdminComplaintsPage: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6} sm={2.4}>
+        <Grid xs={6} sm={2.4}>
           <Card>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
               <Typography variant="h4" color="warning.main">{stats.pending}</Typography>
@@ -146,7 +146,7 @@ const AdminComplaintsPage: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6} sm={2.4}>
+        <Grid xs={6} sm={2.4}>
           <Card>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
               <Typography variant="h4" color="info.main">{stats.inProgress}</Typography>
@@ -154,7 +154,7 @@ const AdminComplaintsPage: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6} sm={2.4}>
+        <Grid xs={6} sm={2.4}>
           <Card>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
               <Typography variant="h4" color="success.main">{stats.resolved}</Typography>
@@ -162,7 +162,7 @@ const AdminComplaintsPage: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6} sm={2.4}>
+        <Grid xs={6} sm={2.4}>
           <Card>
             <CardContent sx={{ textAlign: 'center', py: 2 }}>
               <Typography variant="h4" color="error.main">{stats.rejected}</Typography>
@@ -175,7 +175,7 @@ const AdminComplaintsPage: React.FC = () => {
       {/* Filters */}
       <Paper sx={{ p: 2, mb: 3 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel>Filter by Status</InputLabel>
               <Select
@@ -191,7 +191,7 @@ const AdminComplaintsPage: React.FC = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel>Filter by Category</InputLabel>
               <Select

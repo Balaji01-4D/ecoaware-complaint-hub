@@ -11,7 +11,7 @@ import {
   MenuItem,
   Avatar,
 } from '@mui/material';
-import { AccountCircle, Eco } from '@mui/icons-material';
+import { AccountCircle, Nature } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useAuth } from '../contexts/AuthContext';
@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
   return (
     <AppBar position="static" sx={{ backgroundColor: 'primary.main' }}>
       <Toolbar>
-        <Eco sx={{ mr: 2 }} />
+        <Nature sx={{ mr: 2 }} />
         <Typography
           variant="h6"
           component="div"
