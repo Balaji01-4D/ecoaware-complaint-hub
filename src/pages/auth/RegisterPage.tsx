@@ -10,7 +10,7 @@ import {
   Link,
   Alert,
 } from '@mui/material';
-import { Eco } from '@mui/icons-material';
+import { Nature } from '@mui/icons-material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -77,7 +77,7 @@ const RegisterPage: React.FC = () => {
       >
         <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3 }}>
-            <Eco sx={{ fontSize: 48, color: 'primary.main', mb: 1 }} />
+            <Nature sx={{ fontSize: 48, color: 'primary.main', mb: 1 }} />
             <Typography component="h1" variant="h4" color="primary" gutterBottom>
               EcoAware
             </Typography>

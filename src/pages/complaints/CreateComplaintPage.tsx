@@ -92,7 +92,7 @@ const CreateComplaintPage: React.FC = () => {
           initialValues={{
             title: '',
             description: '',
-            categoryId: '',
+            categoryId: 0,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}

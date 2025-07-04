@@ -8,8 +8,8 @@ import {
   Button,
   Paper,
   Chip,
+  Grid,
 } from '@mui/material';
-import Grid from '@mui/material/Grid2';
 import { Add, Assessment, List, AdminPanelSettings } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -60,7 +60,7 @@ const DashboardPage: React.FC = () => {
 
       <Grid container spacing={3}>
         {/* Quick Actions */}
-        <Grid xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
@@ -99,32 +99,32 @@ const DashboardPage: React.FC = () => {
         </Grid>
 
         {/* Statistics */}
-        <Grid xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Your Complaint Statistics
               </Typography>
               <Grid container spacing={2}>
-                <Grid xs={6}>
+                <Grid item xs={6}>
                   <Paper sx={{ p: 2, textAlign: 'center', bgcolor: 'primary.light', color: 'white' }}>
                     <Typography variant="h4">{stats.total}</Typography>
                     <Typography variant="body2">Total</Typography>
                   </Paper>
                 </Grid>
-                <Grid xs={6}>
+                <Grid item xs={6}>
                   <Paper sx={{ p: 2, textAlign: 'center', bgcolor: 'warning.light', color: 'white' }}>
                     <Typography variant="h4">{stats.pending}</Typography>
                     <Typography variant="body2">Pending</Typography>
                   </Paper>
                 </Grid>
-                <Grid xs={6}>
+                <Grid item xs={6}>
                   <Paper sx={{ p: 2, textAlign: 'center', bgcolor: 'info.light', color: 'white' }}>
                     <Typography variant="h4">{stats.inProgress}</Typography>
                     <Typography variant="body2">In Progress</Typography>
                   </Paper>
                 </Grid>
-                <Grid xs={6}>
+                <Grid item xs={6}>
                   <Paper sx={{ p: 2, textAlign: 'center', bgcolor: 'success.light', color: 'white' }}>
                     <Typography variant="h4">{stats.resolved}</Typography>
                     <Typography variant="body2">Resolved</Typography>
@@ -136,7 +136,7 @@ const DashboardPage: React.FC = () => {
         </Grid>
 
         {/* Recent Complaints */}
-        <Grid xs={12}>
+        <Grid item xs={12}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
