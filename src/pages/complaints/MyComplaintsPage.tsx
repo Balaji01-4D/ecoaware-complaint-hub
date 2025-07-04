@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   CardContent,
-  Grid,
   Chip,
   IconButton,
   Menu,
@@ -107,48 +106,54 @@ const MyComplaintsPage: React.FC = () => {
           </CardContent>
         </Card>
       ) : (
-        <Grid container spacing={3}>
+        <Box sx={{ 
+          display: 'grid', 
+          gridTemplateColumns: { 
+            xs: '1fr', 
+            md: 'repeat(2, 1fr)', 
+            lg: 'repeat(3, 1fr)' 
+          }, 
+          gap: 3 
+        }}>
           {complaints.map((complaint) => (
-            <Grid item xs={12} md={6} lg={4} key={complaint.id}>
-              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <CardContent sx={{ flex: 1 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                    <Typography variant="h6" sx={{ flex: 1, mr: 1 }}>
-                      {complaint.title}
-                    </Typography>
-                    <IconButton
-                      size="small"
-                      onClick={(e) => handleMenuOpen(e, complaint.id)}
-                    >
-                      <MoreVert />
-                    </IconButton>
-                  </Box>
-
-                  <Typography variant="body2" color="textSecondary" paragraph>
-                    {complaint.description.length > 100
-                      ? `${complaint.description.substring(0, 100)}...`
-                      : complaint.description}
+            <Card key={complaint.id} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+              <CardContent sx={{ flex: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                  <Typography variant="h6" sx={{ flex: 1, mr: 1 }}>
+                    {complaint.title}
                   </Typography>
+                  <IconButton
+                    size="small"
+                    onClick={(e) => handleMenuOpen(e, complaint.id)}
+                  >
+                    <MoreVert />
+                  </IconButton>
+                </Box>
 
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <Chip
-                      label={complaint.status}
-                      color={getStatusColor(complaint.status) as any}
-                      size="small"
-                    />
-                    <Typography variant="caption" color="textSecondary">
-                      {complaint.category.name}
-                    </Typography>
-                  </Box>
+                <Typography variant="body2" color="textSecondary" paragraph>
+                  {complaint.description.length > 100
+                    ? `${complaint.description.substring(0, 100)}...`
+                    : complaint.description}
+                </Typography>
 
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Chip
+                    label={complaint.status}
+                    color={getStatusColor(complaint.status) as any}
+                    size="small"
+                  />
                   <Typography variant="caption" color="textSecondary">
-                    Created: {new Date(complaint.createdAt).toLocaleDateString()}
+                    {complaint.category.name}
                   </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+                </Box>
+
+                <Typography variant="caption" color="textSecondary">
+                  Created: {new Date(complaint.createdAt).toLocaleDateString()}
+                </Typography>
+              </CardContent>
+            </Card>
           ))}
-        </Grid>
+        </Box>
       )}
 
       <Menu

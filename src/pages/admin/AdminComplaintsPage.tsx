@@ -128,32 +128,41 @@ const AdminComplaintsPage: React.FC = () => {
       </Typography>
 
       {/* Statistics */}
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
-        <Card sx={{ flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' }, minWidth: 120 }}>
+      <Box sx={{ 
+        display: 'flex', 
+        flexWrap: 'wrap', 
+        gap: 2, 
+        mb: 3,
+        '& > *': {
+          flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' },
+          minWidth: 120
+        }
+      }}>
+        <Card>
           <CardContent sx={{ textAlign: 'center', py: 2 }}>
             <Typography variant="h4" color="primary">{stats.total}</Typography>
             <Typography variant="body2">Total</Typography>
           </CardContent>
         </Card>
-        <Card sx={{ flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' }, minWidth: 120 }}>
+        <Card>
           <CardContent sx={{ textAlign: 'center', py: 2 }}>
             <Typography variant="h4" color="warning.main">{stats.pending}</Typography>
             <Typography variant="body2">Pending</Typography>
           </CardContent>
         </Card>
-        <Card sx={{ flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' }, minWidth: 120 }}>
+        <Card>
           <CardContent sx={{ textAlign: 'center', py: 2 }}>
             <Typography variant="h4" color="info.main">{stats.inProgress}</Typography>
             <Typography variant="body2">In Progress</Typography>
           </CardContent>
         </Card>
-        <Card sx={{ flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' }, minWidth: 120 }}>
+        <Card>
           <CardContent sx={{ textAlign: 'center', py: 2 }}>
             <Typography variant="h4" color="success.main">{stats.resolved}</Typography>
             <Typography variant="body2">Resolved</Typography>
           </CardContent>
         </Card>
-        <Card sx={{ flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' }, minWidth: 120 }}>
+        <Card>
           <CardContent sx={{ textAlign: 'center', py: 2 }}>
             <Typography variant="h4" color="error.main">{stats.rejected}</Typography>
             <Typography variant="body2">Rejected</Typography>
