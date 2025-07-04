@@ -8,7 +8,6 @@ import {
   Button,
   Paper,
   Chip,
-  Grid,
 } from '@mui/material';
 import { Add, Assessment, List, AdminPanelSettings } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -58,123 +57,116 @@ const DashboardPage: React.FC = () => {
         Track and manage your environmental complaints
       </Typography>
 
-      <Grid container spacing={3}>
-        {/* Quick Actions */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Quick Actions
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Button
-                  variant="contained"
-                  startIcon={<Add />}
-                  onClick={() => navigate('/complaints/create')}
-                  fullWidth
-                >
-                  Report New Issue
-                </Button>
-                <Button
-                  variant="outlined"
-                  startIcon={<List />}
-                  onClick={() => navigate('/complaints')}
-                  fullWidth
-                >
-                  View My Complaints
-                </Button>
-                {isAdmin && (
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {/* Quick Actions and Statistics Row */}
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
+          {/* Quick Actions */}
+          <Box sx={{ flex: 1 }}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Quick Actions
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Button
-                    variant="outlined"
-                    startIcon={<AdminPanelSettings />}
-                    onClick={() => navigate('/admin/complaints')}
+                    variant="contained"
+                    startIcon={<Add />}
+                    onClick={() => navigate('/complaints/create')}
                     fullWidth
                   >
-                    Admin Panel
+                    Report New Issue
                   </Button>
-                )}
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+                  <Button
+                    variant="outlined"
+                    startIcon={<List />}
+                    onClick={() => navigate('/complaints')}
+                    fullWidth
+                  >
+                    View My Complaints
+                  </Button>
+                  {isAdmin && (
+                    <Button
+                      variant="outlined"
+                      startIcon={<AdminPanelSettings />}
+                      onClick={() => navigate('/admin/complaints')}
+                      fullWidth
+                    >
+                      Admin Panel
+                    </Button>
+                  )}
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
 
-        {/* Statistics */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Your Complaint Statistics
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
+          {/* Statistics */}
+          <Box sx={{ flex: 1 }}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Your Complaint Statistics
+                </Typography>
+                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
                   <Paper sx={{ p: 2, textAlign: 'center', bgcolor: 'primary.light', color: 'white' }}>
                     <Typography variant="h4">{stats.total}</Typography>
                     <Typography variant="body2">Total</Typography>
                   </Paper>
-                </Grid>
-                <Grid item xs={6}>
                   <Paper sx={{ p: 2, textAlign: 'center', bgcolor: 'warning.light', color: 'white' }}>
                     <Typography variant="h4">{stats.pending}</Typography>
                     <Typography variant="body2">Pending</Typography>
                   </Paper>
-                </Grid>
-                <Grid item xs={6}>
                   <Paper sx={{ p: 2, textAlign: 'center', bgcolor: 'info.light', color: 'white' }}>
                     <Typography variant="h4">{stats.inProgress}</Typography>
                     <Typography variant="body2">In Progress</Typography>
                   </Paper>
-                </Grid>
-                <Grid item xs={6}>
                   <Paper sx={{ p: 2, textAlign: 'center', bgcolor: 'success.light', color: 'white' }}>
                     <Typography variant="h4">{stats.resolved}</Typography>
                     <Typography variant="body2">Resolved</Typography>
                   </Paper>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+        </Box>
 
         {/* Recent Complaints */}
-        <Grid item xs={12}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Recent Complaints
-              </Typography>
-              {complaints.length > 0 ? (
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  {complaints.slice(0, 5).map((complaint) => (
-                    <Paper
-                      key={complaint.id}
-                      sx={{ p: 2, cursor: 'pointer', '&:hover': { bgcolor: 'grey.50' } }}
-                      onClick={() => navigate(`/complaints/${complaint.id}`)}
-                    >
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Box>
-                          <Typography variant="subtitle1">{complaint.title}</Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {complaint.category.name} • {new Date(complaint.createdAt).toLocaleDateString()}
-                          </Typography>
-                        </Box>
-                        <Chip
-                          label={complaint.status}
-                          color={getStatusColor(complaint.status) as any}
-                          size="small"
-                        />
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Recent Complaints
+            </Typography>
+            {complaints.length > 0 ? (
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {complaints.slice(0, 5).map((complaint) => (
+                  <Paper
+                    key={complaint.id}
+                    sx={{ p: 2, cursor: 'pointer', '&:hover': { bgcolor: 'grey.50' } }}
+                    onClick={() => navigate(`/complaints/${complaint.id}`)}
+                  >
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Box>
+                        <Typography variant="subtitle1">{complaint.title}</Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          {complaint.category.name} • {new Date(complaint.createdAt).toLocaleDateString()}
+                        </Typography>
                       </Box>
-                    </Paper>
-                  ))}
-                </Box>
-              ) : (
-                <Typography variant="body1" color="textSecondary">
-                  No complaints yet. Create your first complaint to get started!
-                </Typography>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+                      <Chip
+                        label={complaint.status}
+                        color={getStatusColor(complaint.status) as any}
+                        size="small"
+                      />
+                    </Box>
+                  </Paper>
+                ))}
+              </Box>
+            ) : (
+              <Typography variant="body1" color="textSecondary">
+                No complaints yet. Create your first complaint to get started!
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+      </Box>
     </Box>
   );
 };

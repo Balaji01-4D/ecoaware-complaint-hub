@@ -13,7 +13,6 @@ import {
   Card,
   CardContent,
   Avatar,
-  Grid,
 } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
@@ -129,86 +128,72 @@ const AdminComplaintsPage: React.FC = () => {
       </Typography>
 
       {/* Statistics */}
-      <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={6} sm={2.4}>
-          <Card>
-            <CardContent sx={{ textAlign: 'center', py: 2 }}>
-              <Typography variant="h4" color="primary">{stats.total}</Typography>
-              <Typography variant="body2">Total</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={6} sm={2.4}>
-          <Card>
-            <CardContent sx={{ textAlign: 'center', py: 2 }}>
-              <Typography variant="h4" color="warning.main">{stats.pending}</Typography>
-              <Typography variant="body2">Pending</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={6} sm={2.4}>
-          <Card>
-            <CardContent sx={{ textAlign: 'center', py: 2 }}>
-              <Typography variant="h4" color="info.main">{stats.inProgress}</Typography>
-              <Typography variant="body2">In Progress</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={6} sm={2.4}>
-          <Card>
-            <CardContent sx={{ textAlign: 'center', py: 2 }}>
-              <Typography variant="h4" color="success.main">{stats.resolved}</Typography>
-              <Typography variant="body2">Resolved</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={6} sm={2.4}>
-          <Card>
-            <CardContent sx={{ textAlign: 'center', py: 2 }}>
-              <Typography variant="h4" color="error.main">{stats.rejected}</Typography>
-              <Typography variant="body2">Rejected</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
+        <Card sx={{ flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' }, minWidth: 120 }}>
+          <CardContent sx={{ textAlign: 'center', py: 2 }}>
+            <Typography variant="h4" color="primary">{stats.total}</Typography>
+            <Typography variant="body2">Total</Typography>
+          </CardContent>
+        </Card>
+        <Card sx={{ flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' }, minWidth: 120 }}>
+          <CardContent sx={{ textAlign: 'center', py: 2 }}>
+            <Typography variant="h4" color="warning.main">{stats.pending}</Typography>
+            <Typography variant="body2">Pending</Typography>
+          </CardContent>
+        </Card>
+        <Card sx={{ flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' }, minWidth: 120 }}>
+          <CardContent sx={{ textAlign: 'center', py: 2 }}>
+            <Typography variant="h4" color="info.main">{stats.inProgress}</Typography>
+            <Typography variant="body2">In Progress</Typography>
+          </CardContent>
+        </Card>
+        <Card sx={{ flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' }, minWidth: 120 }}>
+          <CardContent sx={{ textAlign: 'center', py: 2 }}>
+            <Typography variant="h4" color="success.main">{stats.resolved}</Typography>
+            <Typography variant="body2">Resolved</Typography>
+          </CardContent>
+        </Card>
+        <Card sx={{ flex: { xs: '1 1 calc(50% - 8px)', sm: '1 1 calc(20% - 8px)' }, minWidth: 120 }}>
+          <CardContent sx={{ textAlign: 'center', py: 2 }}>
+            <Typography variant="h4" color="error.main">{stats.rejected}</Typography>
+            <Typography variant="body2">Rejected</Typography>
+          </CardContent>
+        </Card>
+      </Box>
 
       {/* Filters */}
       <Paper sx={{ p: 2, mb: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>Filter by Status</InputLabel>
-              <Select
-                value={statusFilter}
-                label="Filter by Status"
-                onChange={(e) => setStatusFilter(e.target.value)}
-              >
-                <MenuItem value="ALL">All Statuses</MenuItem>
-                <MenuItem value="PENDING">Pending</MenuItem>
-                <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-                <MenuItem value="RESOLVED">Resolved</MenuItem>
-                <MenuItem value="REJECTED">Rejected</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>Filter by Category</InputLabel>
-              <Select
-                value={categoryFilter}
-                label="Filter by Category"
-                onChange={(e) => setCategoryFilter(e.target.value)}
-              >
-                <MenuItem value="ALL">All Categories</MenuItem>
-                {categories.map((category) => (
-                  <MenuItem key={category} value={category}>
-                    {category}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
+          <FormControl sx={{ flex: 1 }}>
+            <InputLabel>Filter by Status</InputLabel>
+            <Select
+              value={statusFilter}
+              label="Filter by Status"
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <MenuItem value="ALL">All Statuses</MenuItem>
+              <MenuItem value="PENDING">Pending</MenuItem>
+              <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
+              <MenuItem value="RESOLVED">Resolved</MenuItem>
+              <MenuItem value="REJECTED">Rejected</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl sx={{ flex: 1 }}>
+            <InputLabel>Filter by Category</InputLabel>
+            <Select
+              value={categoryFilter}
+              label="Filter by Category"
+              onChange={(e) => setCategoryFilter(e.target.value)}
+            >
+              <MenuItem value="ALL">All Categories</MenuItem>
+              {categories.map((category) => (
+                <MenuItem key={category} value={category}>
+                  {category}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
       </Paper>
 
       {/* Data Grid */}
