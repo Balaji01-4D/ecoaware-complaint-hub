@@ -1,256 +1,134 @@
 
-import React, { useState } from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Box,
-  IconButton,
-  Menu,
-  MenuItem,
-  Avatar,
-  Badge,
-} from '@mui/material';
-import { AccountCircle, Nature, Notifications, Settings } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { logout } from '../store/slices/authSlice';
+import { useTheme } from '../contexts/ThemeContext';
+import ThemeToggle from './ThemeToggle';
+import { LogOut, Home, Plus, FileText, Shield } from 'lucide-react';
 
 const Navbar: React.FC = () => {
+  const { user, logout } = useAuth();
+  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { user, isAdmin } = useAuth();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate('/login');
-    handleClose();
+    logout();
+    navigate('/');
   };
 
   return (
-    <AppBar position="static" elevation={0}>
-      <Toolbar sx={{ px: 3 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mr: 3 }}>
-          <Box
-            sx={{
-              background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-              borderRadius: '12px',
-              p: 1,
-              mr: 2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+    <nav className={`
+      sticky top-0 z-50 border-b backdrop-blur-xl transition-all duration-300
+      ${isDarkMode 
+        ? 'bg-gray-900/80 border-gray-800' 
+        : 'bg-white/80 border-gray-200'
+      }
+    `}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link 
+            to="/" 
+            className="flex items-center space-x-2 font-semibold text-lg hover:opacity-80 transition-opacity"
           >
-            <Nature sx={{ color: 'white', fontSize: 28 }} />
-          </Box>
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{ 
-              fontWeight: 700,
-              background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                transform: 'scale(1.05)',
-              }
-            }}
-            onClick={() => navigate('/')}
-          >
-            EcoAware
-          </Typography>
-        </Box>
+            <div className={`
+              w-8 h-8 rounded-lg flex items-center justify-center
+              ${isDarkMode ? 'bg-blue-600' : 'bg-blue-500'}
+            `}>
+              <span className="text-white font-bold text-sm">EC</span>
+            </div>
+            <span>EcoAware</span>
+          </Link>
 
-        <Box sx={{ flexGrow: 1 }} />
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center space-x-1">
+            <NavLink to="/" icon={Home} label="Home" />
+            {user && (
+              <>
+                <NavLink to="/complaints/create" icon={Plus} label="Report" />
+                <NavLink to="/complaints/my" icon={FileText} label="My Reports" />
+                {user.role === 'admin' && (
+                  <NavLink to="/admin/complaints" icon={Shield} label="Admin" />
+                )}
+              </>
+            )}
+          </div>
 
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <Button 
-            color="inherit" 
-            onClick={() => navigate('/')}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              py: 1,
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                background: 'rgba(99, 102, 241, 0.1)',
-                transform: 'translateY(-2px)',
-              }
-            }}
-          >
-            Dashboard
-          </Button>
-          <Button 
-            color="inherit" 
-            onClick={() => navigate('/complaints')}
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              py: 1,
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                background: 'rgba(99, 102, 241, 0.1)',
-                transform: 'translateY(-2px)',
-              }
-            }}
-          >
-            My Issues
-          </Button>
-          <Button 
-            color="inherit" 
-            onClick={() => navigate('/complaints/create')}
-            variant="outlined"
-            sx={{
-              borderRadius: 2,
-              px: 3,
-              py: 1,
-              border: '1px solid rgba(99, 102, 241, 0.5)',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                background: 'rgba(99, 102, 241, 0.1)',
-                transform: 'translateY(-2px)',
-                border: '1px solid #6366f1',
-              }
-            }}
-          >
-            Report Issue
-          </Button>
-          {isAdmin && (
-            <Button 
-              color="inherit" 
-              onClick={() => navigate('/admin/complaints')}
-              sx={{
-                borderRadius: 2,
-                px: 3,
-                py: 1,
-                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                color: '#000000',
-                fontWeight: 600,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
-                  transform: 'translateY(-2px)',
-                }
-              }}
-            >
-              Admin Panel
-            </Button>
-          )}
+          {/* Right Side */}
+          <div className="flex items-center space-x-4">
+            <ThemeToggle />
+            
+            {user ? (
+              <div className="flex items-center space-x-3">
+                <span className="text-sm font-medium">{user.name}</span>
+                <button
+                  onClick={handleLogout}
+                  className={`
+                    flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium
+                    transition-colors duration-200
+                    ${isDarkMode 
+                      ? 'text-red-400 hover:bg-red-900/20' 
+                      : 'text-red-600 hover:bg-red-50'
+                    }
+                  `}
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link
+                  to="/auth/login"
+                  className={`
+                    px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200
+                    ${isDarkMode 
+                      ? 'text-gray-300 hover:text-white hover:bg-gray-800' 
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    }
+                  `}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/auth/register"
+                  className={`
+                    px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200
+                    ${isDarkMode 
+                      ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                      : 'bg-blue-500 text-white hover:bg-blue-600'
+                    }
+                  `}
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};
 
-          <IconButton
-            color="inherit"
-            sx={{
-              ml: 2,
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                background: 'rgba(99, 102, 241, 0.1)',
-                transform: 'scale(1.1)',
-              }
-            }}
-          >
-            <Badge badgeContent={3} color="secondary">
-              <Notifications />
-            </Badge>
-          </IconButton>
-
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
-            color="inherit"
-            sx={{
-              ml: 1,
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                transform: 'scale(1.1)',
-              }
-            }}
-          >
-            <Avatar 
-              sx={{ 
-                width: 40, 
-                height: 40, 
-                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-                fontWeight: 600,
-                fontSize: '1.1rem',
-              }}
-            >
-              {user?.name?.charAt(0).toUpperCase()}
-            </Avatar>
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            sx={{
-              '& .MuiPaper-root': {
-                background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-                border: '1px solid rgba(99, 102, 241, 0.1)',
-                borderRadius: 2,
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-                backdropFilter: 'blur(8px)',
-                mt: 1,
-              }
-            }}
-          >
-            <MenuItem disabled sx={{ opacity: 0.7 }}>
-              <Typography variant="body2" color="textSecondary">
-                {user?.email}
-              </Typography>
-            </MenuItem>
-            <MenuItem 
-              onClick={handleClose}
-              sx={{
-                '&:hover': {
-                  background: 'rgba(99, 102, 241, 0.1)',
-                }
-              }}
-            >
-              <Settings sx={{ mr: 1 }} />
-              Settings
-            </MenuItem>
-            <MenuItem 
-              onClick={handleLogout}
-              sx={{
-                color: '#ef4444',
-                '&:hover': {
-                  background: 'rgba(239, 68, 68, 0.1)',
-                }
-              }}
-            >
-              Logout
-            </MenuItem>
-          </Menu>
-        </Box>
-      </Toolbar>
-    </AppBar>
+const NavLink: React.FC<{ to: string; icon: any; label: string }> = ({ to, icon: Icon, label }) => {
+  const { isDarkMode } = useTheme();
+  
+  return (
+    <Link
+      to={to}
+      className={`
+        flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium
+        transition-colors duration-200
+        ${isDarkMode 
+          ? 'text-gray-300 hover:text-white hover:bg-gray-800' 
+          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+        }
+      `}
+    >
+      <Icon className="w-4 h-4" />
+      <span>{label}</span>
+    </Link>
   );
 };
 

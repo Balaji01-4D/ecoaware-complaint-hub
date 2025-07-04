@@ -1,17 +1,21 @@
 
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Box, Container } from '@mui/material';
 import Navbar from './Navbar';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Layout: React.FC = () => {
+  const { isDarkMode } = useTheme();
+
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Navbar />
-      <Container component="main" sx={{ flex: 1, py: 3 }}>
-        <Outlet />
-      </Container>
-    </Box>
+    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
+      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+        <Navbar />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <Outlet />
+        </main>
+      </div>
+    </div>
   );
 };
 
