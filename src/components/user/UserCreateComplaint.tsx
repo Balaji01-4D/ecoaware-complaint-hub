@@ -127,7 +127,7 @@ const UserCreateComplaint: React.FC = () => {
                 </Field>
                 {touched.categoryId && errors.categoryId && (
                   <Typography variant="caption" color="error">
-                    {errors.categoryId}
+                    {String(errors.categoryId)}
                   </Typography>
                 )}
               </FormControl>

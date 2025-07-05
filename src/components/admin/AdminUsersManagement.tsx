@@ -21,7 +21,7 @@ import {
   Menu,
   MenuItem
 } from '@mui/material';
-import { Edit, Trash2, MoreVert } from 'lucide-react';
+import { Edit, Trash2, MoreVertical } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { RootState, AppDispatch } from '../../store/store';
@@ -126,7 +126,7 @@ const AdminUsersManagement: React.FC = () => {
                 </TableCell>
                 <TableCell>
                   <IconButton onClick={(e) => handleMenuOpen(e, user.id)}>
-                    <MoreVert />
+                    <MoreVertical />
                   </IconButton>
                 </TableCell>
               </TableRow>

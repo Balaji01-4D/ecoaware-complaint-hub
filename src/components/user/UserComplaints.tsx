@@ -21,7 +21,7 @@ import {
   Select,
   MenuItem as SelectMenuItem
 } from '@mui/material';
-import { MoreVert, Edit, Trash2, Visibility } from 'lucide-react';
+import { MoreVertical, Edit, Trash2, Eye } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { RootState, AppDispatch } from '../../store/store';
@@ -154,7 +154,7 @@ const UserComplaints: React.FC = () => {
                       size="small"
                       onClick={(e) => handleMenuOpen(e, complaint.id)}
                     >
-                      <MoreVert />
+                      <MoreVertical />
                     </IconButton>
                   </Box>
 
