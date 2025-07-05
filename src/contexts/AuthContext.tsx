@@ -30,11 +30,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Only check authentication once when the app loads
     if (!hasCheckedAuth) {
       console.log('Checking authentication status...');
-      dispatch(getCurrentUser());
+      dispatch(getCurrentUser()).catch((error) => {
+        console.log('Auth check failed:', error);
+        // Clear potentially malformed cookies on auth check failure
+        document.cookie = 'Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=localhost;';
+      });
     }
   }, [dispatch, hasCheckedAuth]);
 
   const handleLogout = () => {
+    console.log('Logging out...');
     dispatch(logout());
   };
 

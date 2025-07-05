@@ -14,7 +14,7 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   isAuthenticated: boolean;
-  hasCheckedAuth: boolean; // Add this to prevent infinite checks
+  hasCheckedAuth: boolean;
 }
 
 const initialState: AuthState = {
@@ -29,7 +29,7 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await authService.login(credentials);
+      await authService.login(credentials);
       // After successful login, get user data
       const userData = await authService.getCurrentUser();
       return userData;
@@ -63,11 +63,25 @@ export const getCurrentUser = createAsyncThunk(
       const response = await authService.getCurrentUser();
       return response;
     } catch (error: any) {
+      console.log('getCurrentUser error:', error.response?.status);
       // Don't treat 401 as an error for getCurrentUser - it just means not logged in
       if (error.response?.status === 401) {
         return rejectWithValue('Not authenticated');
       }
       return rejectWithValue(error.response?.data?.message || 'Failed to get user');
+    }
+  }
+);
+
+export const logoutUser = createAsyncThunk(
+  'auth/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      // Clear the cookie by making a request (optional)
+      // You can implement a logout endpoint on your backend if needed
+      return null;
+    } catch (error: any) {
+      return rejectWithValue('Logout failed');
     }
   }
 );
@@ -81,6 +95,8 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.error = null;
       state.hasCheckedAuth = true;
+      // Clear any cookies on the client side
+      document.cookie = 'Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=localhost;';
     },
     clearError: (state) => {
       state.error = null;
@@ -133,11 +149,22 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.isLoading = false;
         state.hasCheckedAuth = true;
+        state.error = null;
       })
-      .addCase(getCurrentUser.rejected, (state) => {
+      .addCase(getCurrentUser.rejected, (state, action) => {
         state.user = null;
         state.isAuthenticated = false;
         state.isLoading = false;
+        state.hasCheckedAuth = true;
+        // Don't set error for 401 responses as they're expected when not logged in
+        if (action.payload !== 'Not authenticated') {
+          state.error = action.payload as string;
+        }
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.error = null;
         state.hasCheckedAuth = true;
       });
   },
