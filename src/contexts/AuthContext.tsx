@@ -24,12 +24,15 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, isAuthenticated, isLoading } = useSelector((state: RootState) => state.auth);
+  const { user, isAuthenticated, isLoading, hasCheckedAuth } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    // Check if user is authenticated on app load
-    dispatch(getCurrentUser());
-  }, [dispatch]);
+    // Only check authentication once when the app loads
+    if (!hasCheckedAuth) {
+      console.log('Checking authentication status...');
+      dispatch(getCurrentUser());
+    }
+  }, [dispatch, hasCheckedAuth]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -39,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isAuthenticated,
     user,
     isAdmin: user?.role === 'ADMIN',
-    isLoading,
+    isLoading: isLoading && !hasCheckedAuth, // Only show loading if we haven't checked yet
     logout: handleLogout,
   };
 

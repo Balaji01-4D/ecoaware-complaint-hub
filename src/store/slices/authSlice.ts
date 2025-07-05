@@ -14,6 +14,7 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   isAuthenticated: boolean;
+  hasCheckedAuth: boolean; // Add this to prevent infinite checks
 }
 
 const initialState: AuthState = {
@@ -21,6 +22,7 @@ const initialState: AuthState = {
   isLoading: false,
   error: null,
   isAuthenticated: false,
+  hasCheckedAuth: false,
 };
 
 export const loginUser = createAsyncThunk(
@@ -28,7 +30,9 @@ export const loginUser = createAsyncThunk(
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const response = await authService.login(credentials);
-      return response;
+      // After successful login, get user data
+      const userData = await authService.getCurrentUser();
+      return userData;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Login failed');
     }
@@ -49,11 +53,20 @@ export const registerUser = createAsyncThunk(
 
 export const getCurrentUser = createAsyncThunk(
   'auth/getCurrentUser',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
+      const state = getState() as { auth: AuthState };
+      // If we've already checked and failed, don't check again
+      if (state.auth.hasCheckedAuth && !state.auth.isAuthenticated) {
+        return rejectWithValue('Already checked');
+      }
       const response = await authService.getCurrentUser();
       return response;
     } catch (error: any) {
+      // Don't treat 401 as an error for getCurrentUser - it just means not logged in
+      if (error.response?.status === 401) {
+        return rejectWithValue('Not authenticated');
+      }
       return rejectWithValue(error.response?.data?.message || 'Failed to get user');
     }
   }
@@ -67,9 +80,13 @@ const authSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
       state.error = null;
+      state.hasCheckedAuth = true;
     },
     clearError: (state) => {
       state.error = null;
+    },
+    resetAuthCheck: (state) => {
+      state.hasCheckedAuth = false;
     },
   },
   extraReducers: (builder) => {
@@ -81,12 +98,16 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = true;
+        state.user = action.payload;
         state.error = null;
+        state.hasCheckedAuth = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
         state.isAuthenticated = false;
+        state.user = null;
+        state.hasCheckedAuth = true;
       })
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
@@ -95,21 +116,32 @@ const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (state) => {
         state.isLoading = false;
         state.error = null;
+        state.hasCheckedAuth = true;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
+        state.hasCheckedAuth = true;
+      })
+      .addCase(getCurrentUser.pending, (state) => {
+        if (!state.hasCheckedAuth) {
+          state.isLoading = true;
+        }
       })
       .addCase(getCurrentUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.isLoading = false;
+        state.hasCheckedAuth = true;
       })
       .addCase(getCurrentUser.rejected, (state) => {
         state.user = null;
         state.isAuthenticated = false;
+        state.isLoading = false;
+        state.hasCheckedAuth = true;
       });
   },
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { logout, clearError, resetAuthCheck } = authSlice.actions;
 export default authSlice.reducer;

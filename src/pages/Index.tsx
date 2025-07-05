@@ -7,6 +7,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 const Index = () => {
   const { isAuthenticated, isLoading } = useAuth();
 
+  console.log('Index page - isAuthenticated:', isAuthenticated, 'isLoading:', isLoading);
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
