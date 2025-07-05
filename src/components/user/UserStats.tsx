@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Typography, Box } from '@mui/material';
 import { FileText, Clock, CheckCircle, XCircle } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -43,9 +43,9 @@ const UserStats: React.FC = () => {
   ];
 
   return (
-    <Grid container spacing={3}>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {statCards.map((stat, index) => (
-        <Grid item xs={12} sm={6} md={3} key={index}>
+        <div key={index}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -61,9 +61,9 @@ const UserStats: React.FC = () => {
               </Box>
             </CardContent>
           </Card>
-        </Grid>
+        </div>
       ))}
-    </Grid>
+    </div>
   );
 };
 

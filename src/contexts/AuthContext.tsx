@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store';
-import { getCurrentUser } from '../store/slices/authSlice';
+import { getCurrentUser, logout } from '../store/slices/authSlice';
 
 interface AuthContextType {
   user: any;
@@ -10,6 +10,7 @@ interface AuthContextType {
   isAdmin: boolean;
   isLoading: boolean;
   hasCheckedAuth: boolean;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,12 +31,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [dispatch, hasCheckedAuth, isLoading]);
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   const value: AuthContextType = {
     user,
     isAuthenticated,
     isAdmin: user?.role === 'admin',
     isLoading: isLoading || !hasCheckedAuth,
     hasCheckedAuth,
+    logout: handleLogout,
   };
 
   console.log('AuthContext value:', value);

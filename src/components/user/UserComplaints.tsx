@@ -9,7 +9,6 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Grid,
   Button,
   Dialog,
   DialogTitle,
@@ -141,9 +140,9 @@ const UserComplaints: React.FC = () => {
           </CardContent>
         </Card>
       ) : (
-        <Grid container spacing={3}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {complaints.map((complaint) => (
-            <Grid item xs={12} md={6} lg={4} key={complaint.id}>
+            <div key={complaint.id}>
               <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flex: 1 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
@@ -180,9 +179,9 @@ const UserComplaints: React.FC = () => {
                   </Typography>
                 </CardContent>
               </Card>
-            </Grid>
+            </div>
           ))}
-        </Grid>
+        </div>
       )}
 
       <Menu

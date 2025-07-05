@@ -7,7 +7,6 @@ import {
   TextField,
   Button,
   Alert,
-  Grid,
 } from '@mui/material';
 import { User, Lock } from 'lucide-react';
 import { Formik, Form, Field } from 'formik';
@@ -74,9 +73,9 @@ const UserProfile: React.FC = () => {
         Profile Settings
       </Typography>
 
-      <Grid container spacing={3}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Profile Information */}
-        <Grid item xs={12} md={6}>
+        <div>
           <Paper sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
               <User className="w-5 h-5 mr-2" />
@@ -123,10 +122,10 @@ const UserProfile: React.FC = () => {
               )}
             </Formik>
           </Paper>
-        </Grid>
+        </div>
 
         {/* Change Password */}
-        <Grid item xs={12} md={6}>
+        <div>
           <Paper sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
               <Lock className="w-5 h-5 mr-2" />
@@ -186,8 +185,8 @@ const UserProfile: React.FC = () => {
               )}
             </Formik>
           </Paper>
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     </Box>
   );
 };
