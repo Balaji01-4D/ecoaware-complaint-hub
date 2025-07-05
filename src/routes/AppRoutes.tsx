@@ -5,12 +5,9 @@ import { useAuth } from '../contexts/AuthContext';
 import Layout from '../components/Layout';
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
-import DashboardPage from '../pages/DashboardPage';
-import CreateComplaintPage from '../pages/complaints/CreateComplaintPage';
-import MyComplaintsPage from '../pages/complaints/MyComplaintsPage';
+import AdminDashboard from '../pages/admin/AdminDashboard';
+import UserDashboard from '../pages/user/UserDashboard';
 import ComplaintDetailPage from '../pages/complaints/ComplaintDetailPage';
-import EditComplaintPage from '../pages/complaints/EditComplaintPage';
-import AdminComplaintsPage from '../pages/admin/AdminComplaintsPage';
 import UnauthorizedPage from '../pages/UnauthorizedPage';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -33,6 +30,14 @@ const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <>{children}</>;
 };
 
+const RoleDashboard: React.FC = () => {
+  const { isAdmin, isLoading } = useAuth();
+  
+  if (isLoading) return <LoadingSpinner />;
+  
+  return isAdmin ? <AdminDashboard /> : <UserDashboard />;
+};
+
 const AppRoutes: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
@@ -42,16 +47,10 @@ const AppRoutes: React.FC = () => {
       <Route path="/register" element={isAuthenticated ? <Navigate to="/" /> : <RegisterPage />} />
       
       <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
-        <Route index element={<DashboardPage />} />
-        <Route path="complaints">
-          <Route index element={<MyComplaintsPage />} />
-          <Route path="create" element={<CreateComplaintPage />} />
-          <Route path=":id" element={<ComplaintDetailPage />} />
-          <Route path=":id/edit" element={<EditComplaintPage />} />
-        </Route>
-        <Route path="admin">
-          <Route path="complaints" element={<AdminRoute><AdminComplaintsPage /></AdminRoute>} />
-        </Route>
+        <Route index element={<RoleDashboard />} />
+        <Route path="dashboard" element={<RoleDashboard />} />
+        <Route path="complaints/:id" element={<ComplaintDetailPage />} />
+        <Route path="admin/*" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
         <Route path="unauthorized" element={<UnauthorizedPage />} />
       </Route>
     </Routes>

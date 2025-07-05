@@ -7,7 +7,7 @@ import ThemeToggle from './ThemeToggle';
 import { LogOut, Home, Plus, FileText, Shield } from 'lucide-react';
 
 const Navbar: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
 
@@ -42,15 +42,12 @@ const Navbar: React.FC = () => {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-1">
-            <NavLink to="/" icon={Home} label="Home" />
-            {user && (
-              <>
-                <NavLink to="/complaints/create" icon={Plus} label="Report" />
-                <NavLink to="/complaints/my" icon={FileText} label="My Reports" />
-                {user.role === 'admin' && (
-                  <NavLink to="/admin/complaints" icon={Shield} label="Admin" />
-                )}
-              </>
+            <NavLink to="/" icon={Home} label="Dashboard" />
+            {user && !isAdmin && (
+              <NavLink to="/" icon={FileText} label="My Complaints" />
+            )}
+            {user && isAdmin && (
+              <NavLink to="/" icon={Shield} label="Admin Panel" />
             )}
           </div>
 
@@ -60,7 +57,9 @@ const Navbar: React.FC = () => {
             
             {user ? (
               <div className="flex items-center space-x-3">
-                <span className="text-sm font-medium">{user.name}</span>
+                <span className="text-sm font-medium">
+                  {user.name} {isAdmin && '(Admin)'}
+                </span>
                 <button
                   onClick={handleLogout}
                   className={`
@@ -79,7 +78,7 @@ const Navbar: React.FC = () => {
             ) : (
               <div className="flex items-center space-x-2">
                 <Link
-                  to="/auth/login"
+                  to="/login"
                   className={`
                     px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200
                     ${isDarkMode 
@@ -91,7 +90,7 @@ const Navbar: React.FC = () => {
                   Login
                 </Link>
                 <Link
-                  to="/auth/register"
+                  to="/register"
                   className={`
                     px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200
                     ${isDarkMode 

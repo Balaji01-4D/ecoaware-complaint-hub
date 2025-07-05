@@ -8,7 +8,18 @@ export const authService = {
   },
 
   async register(userData: { name: string; email: string; password: string }) {
-    const response = await apiClient.post('/auth/register', userData);
+    const response = await apiClient.post('/auth/register', {
+      ...userData,
+      role: 'user' // Default role for normal registration
+    });
+    return response.data;
+  },
+
+  async registerAdmin(userData: { name: string; email: string; password: string }) {
+    const response = await apiClient.post('/auth/register', {
+      ...userData,
+      role: 'admin'
+    });
     return response.data;
   },
 

@@ -1,4 +1,3 @@
-
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { authService } from '../../services/authService';
 
@@ -6,7 +5,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  role: 'USER' | 'ADMIN';
+  role: 'user' | 'admin';
 }
 
 interface AuthState {
@@ -47,6 +46,18 @@ export const registerUser = createAsyncThunk(
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Registration failed');
+    }
+  }
+);
+
+export const registerAdmin = createAsyncThunk(
+  'auth/registerAdmin',
+  async (userData: { name: string; email: string; password: string }, { rejectWithValue }) => {
+    try {
+      const response = await authService.registerAdmin(userData);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Admin registration failed');
     }
   }
 );
@@ -138,6 +149,18 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
         state.hasCheckedAuth = true;
+      })
+      .addCase(registerAdmin.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(registerAdmin.fulfilled, (state) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(registerAdmin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       })
       .addCase(getCurrentUser.pending, (state) => {
         if (!state.hasCheckedAuth) {
