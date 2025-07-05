@@ -11,7 +11,6 @@ export interface User {
 
 interface AuthState {
   user: User | null;
-  token: string | null;
   isLoading: boolean;
   error: string | null;
   isAuthenticated: boolean;
@@ -19,10 +18,9 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  token: localStorage.getItem('token'),
   isLoading: false,
   error: null,
-  isAuthenticated: !!localStorage.getItem('token'),
+  isAuthenticated: false,
 };
 
 export const loginUser = createAsyncThunk(
@@ -30,7 +28,6 @@ export const loginUser = createAsyncThunk(
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const response = await authService.login(credentials);
-      localStorage.setItem('token', response.token);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Login failed');
@@ -67,9 +64,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      localStorage.removeItem('token');
       state.user = null;
-      state.token = null;
       state.isAuthenticated = false;
       state.error = null;
     },
@@ -85,8 +80,6 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
         state.isAuthenticated = true;
         state.error = null;
       })
@@ -113,9 +106,7 @@ const authSlice = createSlice({
       })
       .addCase(getCurrentUser.rejected, (state) => {
         state.user = null;
-        state.token = null;
         state.isAuthenticated = false;
-        localStorage.removeItem('token');
       });
   },
 });

@@ -2,13 +2,14 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store';
-import { getCurrentUser } from '../store/slices/authSlice';
+import { getCurrentUser, logout } from '../store/slices/authSlice';
 
 interface AuthContextType {
   isAuthenticated: boolean;
   user: any;
   isAdmin: boolean;
   isLoading: boolean;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -23,19 +24,23 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, isAuthenticated, isLoading, token } = useSelector((state: RootState) => state.auth);
+  const { user, isAuthenticated, isLoading } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    if (token && !user) {
-      dispatch(getCurrentUser());
-    }
-  }, [dispatch, token, user]);
+    // Check if user is authenticated on app load
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   const value = {
     isAuthenticated,
     user,
     isAdmin: user?.role === 'ADMIN',
     isLoading,
+    logout: handleLogout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
